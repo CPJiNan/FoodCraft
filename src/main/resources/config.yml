@@ -1,0 +1,12 @@
+# 全局设置
+options:
+  #调试模式
+  debug: true
+  # bStats数据统计
+  metrics: true
+# 模块设置
+module:
+  # 食物工艺模块
+  foodcraft:
+    # 启用食物工艺模块
+    enable: true
