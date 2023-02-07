@@ -9,6 +9,9 @@ object FoodEvent {
 
     @SubscribeEvent
     fun onFood(event : PlayerItemConsumeEvent) {
+
+        if (event.item.itemMeta!!.lore == null) return
+
         val player = event.player
         val regex = Regex("[0-9]+")
         val attributeMap = HashMap<String, Double>()
@@ -19,7 +22,7 @@ object FoodEvent {
         attributeMap["回复生命"] = 0.0
         event.item.itemMeta!!.lore!!.forEach {
             ConfigManager.heal.getStringList("heal.keywords").forEach { key ->
-                if (ChatColor.stripColor(it)!!.contains(key)) attributeMap["回复生命"] = attributeMap["回复生命"]!! + regex.find(it)?.value?.toDouble()!!
+                if (ChatColor.stripColor(it)!!.contains(key)) attributeMap["回复生命"] = attributeMap["回复生命"]!! + regex.find(ChatColor.stripColor(it)!!)?.value?.toDouble()!!
             }
         }
         if (attributeMap["回复生命"] != 0.0) {
@@ -34,7 +37,7 @@ object FoodEvent {
         attributeMap["回复饱食"] = 0.0
         event.item.itemMeta!!.lore!!.forEach {
             ConfigManager.feed.getStringList("feed.keywords").forEach { key ->
-                if (ChatColor.stripColor(it)!!.contains(key)) attributeMap["回复饱食"] = attributeMap["回复饱食"]!! + regex.find(it)?.value?.toDouble()!!
+                if (ChatColor.stripColor(it)!!.contains(key)) attributeMap["回复饱食"] = attributeMap["回复饱食"]!! + regex.find(ChatColor.stripColor(it)!!)?.value?.toDouble()!!
             }
         }
         if (attributeMap["回复饱食"] != 0.0) {
