@@ -15,6 +15,7 @@ object FoodEvent {
         val player = event.player
         val regex = Regex("[0-9]+")
         val attributeMap = HashMap<String, Double>()
+        var take = false
 
         /**
          * 词条 - 回复生命
@@ -27,7 +28,7 @@ object FoodEvent {
         }
         if (attributeMap["回复生命"] != 0.0) {
             event.isCancelled = true
-            player.inventory.itemInMainHand.amount -= 1
+            take = true
             player.health = (player.health + attributeMap["回复生命"]!!).coerceAtMost(player.maxHealth)
         }
 
@@ -42,9 +43,11 @@ object FoodEvent {
         }
         if (attributeMap["回复饱食"] != 0.0) {
             event.isCancelled = true
-            player.inventory.itemInMainHand.amount -= 1
+            take = true
             player.foodLevel = (player.foodLevel + attributeMap["回复饱食"]!!).coerceAtMost(20.0).toInt()
         }
+
+        if (take) player.inventory.itemInMainHand.amount -= 1
 
     }
 }
